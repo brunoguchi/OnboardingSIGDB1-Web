@@ -6,7 +6,7 @@
       <th>#</th>
     </tr>
   </thead>
-  <tbody *ngIf="cargos && cargos.length">
+  <tbody *ngIf="cargos !== undefined && cargos?.length > 0">
     <tr *ngFor="let cargo of cargos">
       <td>{{ cargo.id }}</td>
       <td>{{ cargo.descricao }}</td>
@@ -29,7 +29,12 @@
             aria-labelledby="button-basic"
           >
             <li role="menuitem">
-              <a class="dropdown-item" href="#">Editar</a>
+              <a
+                class="dropdown-item"
+                href="javascript:void(0)"
+                (click)="openModal(template)"
+                >Editar</a
+              >
             </li>
             <li role="menuitem">
               <a class="dropdown-item" href="#">Excluir</a>
@@ -39,7 +44,7 @@
       </td>
     </tr>
   </tbody>
-  <tfoot *ngIf="!cargos.length">
+  <tfoot *ngIf="cargos === undefined || cargos?.length == 0">
     <tr>
       <td colspan="3" class="text-center">
         <h4>Nenhum cargo encontrado...</h4>
@@ -47,3 +52,18 @@
     </tr>
   </tfoot>
 </table>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">This is a modal.</div>
+</ng-template>

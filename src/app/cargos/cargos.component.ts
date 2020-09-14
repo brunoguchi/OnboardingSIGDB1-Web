@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Cargo } from '../_models/Cargo';
 import { CargoService } from '../_services/cargo.service';
 
@@ -9,11 +10,18 @@ import { CargoService } from '../_services/cargo.service';
 })
 export class CargosComponent implements OnInit {
   cargos: Cargo[];
+  modalRef: BsModalRef;
 
-  constructor(private cargoService: CargoService) { }
+  constructor(private cargoService: CargoService,
+    private modalService: BsModalService
+  ) { }
 
   ngOnInit() {
     this.getCargos();
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   getCargos() {
@@ -22,7 +30,10 @@ export class CargosComponent implements OnInit {
         this.cargos = _cargos;
         console.log(_cargos);
       },
-      error => { console.log(error); }
+      error => {
+        console.log(error);
+        console.log(this.cargos);
+      }
     );
   }
 }
