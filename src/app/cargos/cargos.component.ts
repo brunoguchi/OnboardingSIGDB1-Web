@@ -7,21 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cargos.component.css']
 })
 export class CargosComponent implements OnInit {
-
-  // cargos: any = [{
-  //   Id: 1,
-  //   Descricao: 'Cargo 1'
-  // },
-  // {
-  //   Id: 2,
-  //   Descricao: 'Cargo 2'
-  // },
-  // {
-  //   Id: 3,
-  //   Descricao: 'Cargo 3'
-  // }];
-
-  cargos: any;
+  cargos: any = [];
 
   constructor(private http: HttpClient) { }
 
@@ -31,7 +17,10 @@ export class CargosComponent implements OnInit {
 
   getCargos() {
     this.http.get('http://localhost:5000/api/Cargos').subscribe(
-      response => { this.cargos = response; },
+      response => {
+        this.cargos = response;
+        console.log(response);
+      },
       error => { console.log(error); }
     );
   }

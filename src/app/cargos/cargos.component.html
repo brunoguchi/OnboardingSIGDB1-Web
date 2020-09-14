@@ -3,26 +3,47 @@
     <tr>
       <th>Id</th>
       <th>Descrição</th>
-      <th></th>
+      <th>#</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody *ngIf="cargos && cargos.length">
     <tr *ngFor="let cargo of cargos">
       <td>{{ cargo.id }}</td>
       <td>{{ cargo.descricao }}</td>
       <td>
         <div class="btn-group" dropdown>
-          <button id="button-basic" dropdownToggle type="button" class="btn btn-secondary dropdown-toggle" aria-controls="dropdown-basic">
+          <button
+            id="button-basic"
+            dropdownToggle
+            type="button"
+            class="btn btn-secondary dropdown-toggle"
+            aria-controls="dropdown-basic"
+          >
             Mais opções <span class="caret"></span>
           </button>
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"role="menu" aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" href="#">Editar</a></li>
-            <li role="menuitem"><a class="dropdown-item" href="#">Excluir</a></li>
+          <ul
+            id="dropdown-basic"
+            *dropdownMenu
+            class="dropdown-menu"
+            role="menu"
+            aria-labelledby="button-basic"
+          >
+            <li role="menuitem">
+              <a class="dropdown-item" href="#">Editar</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" href="#">Excluir</a>
+            </li>
           </ul>
         </div>
       </td>
     </tr>
   </tbody>
+  <tfoot *ngIf="!cargos.length">
+    <tr>
+      <td colspan="3" class="text-center">
+        <h4>Nenhum cargo encontrado...</h4>
+      </td>
+    </tr>
+  </tfoot>
 </table>
-
-
