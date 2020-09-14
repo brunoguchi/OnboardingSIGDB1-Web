@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { CargosComponent } from './cargos/cargos.component';
 import { NavComponent } from './nav/nav.component';
 
+import { AlertModule } from 'ngx-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,7 +18,10 @@ import { NavComponent } from './nav/nav.component';
    ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    AlertModule.forRoot(),
+    BrowserAnimationsModule,
+    BsDropdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
