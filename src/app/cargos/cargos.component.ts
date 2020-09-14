@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Cargo } from '../_models/Cargo';
+import { CargoService } from '../_services/cargo.service';
 
 @Component({
   selector: 'app-cargos',
@@ -7,22 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cargos.component.css']
 })
 export class CargosComponent implements OnInit {
-  cargos: any = [];
+  cargos: Cargo[];
 
-  constructor(private http: HttpClient) { }
+  constructor(private cargoService: CargoService) { }
 
   ngOnInit() {
     this.getCargos();
   }
 
   getCargos() {
-    this.http.get('http://localhost:5000/api/Cargos').subscribe(
-      response => {
-        this.cargos = response;
-        console.log(response);
+    this.cargoService.getAllCargos().subscribe(
+      (_cargos: Cargo[]) => {
+        this.cargos = _cargos;
+        console.log(_cargos);
       },
       error => { console.log(error); }
     );
   }
-
 }

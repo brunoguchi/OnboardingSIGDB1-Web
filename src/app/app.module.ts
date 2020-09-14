@@ -9,6 +9,7 @@ import { NavComponent } from './nav/nav.component';
 import { AlertModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CargoService } from './_services/cargo.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     BrowserAnimationsModule,
     BsDropdownModule.forRoot()
   ],
-  providers: [],
+  providers: [CargoService],
   bootstrap: [AppComponent]
 })
 
