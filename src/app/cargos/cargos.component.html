@@ -1,6 +1,29 @@
-<div *ngFor="let cargo of cargos">
-  Id: {{ cargo.id }}
-  <br/>
-  Descrição: {{ cargo.descricao }}
-  <hr/>
-</div>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>Id</th>
+      <th>Descrição</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cargo of cargos">
+      <td>{{ cargo.id }}</td>
+      <td>{{ cargo.descricao }}</td>
+      <td>
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Mais opções
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
