@@ -17,4 +17,8 @@ export class CargoService {
   getCargoById(id: number): Observable<Cargo> {
     return this.http.get<Cargo>(`${this.baseUrl}/${id}`);
   }
+
+  postCargo(cargo: Cargo) {
+    return this.http.post(this.baseUrl, cargo);
+  }
 }

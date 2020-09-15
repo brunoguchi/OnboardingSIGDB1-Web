@@ -1,9 +1,16 @@
+<div class="d-flex flex-row-reverse">
+  <button class="btn btn-outline-primary" (click)="openModal(template)">
+    <i class="fa fa-plus-circle"></i>
+    Novo
+  </button>
+</div>
+<br/>
 <table class="table table-striped">
-  <thead class="thead-dark">
+  <thead class="thead-light">
     <tr>
       <th>Id</th>
       <th>Descrição</th>
-      <th>#</th>
+      <th></th>
     </tr>
   </thead>
   <tbody *ngIf="cargos !== undefined && cargos?.length > 0">
@@ -11,35 +18,37 @@
       <td>{{ cargo.id }}</td>
       <td>{{ cargo.descricao }}</td>
       <td>
-        <div class="btn-group" dropdown>
-          <button
-            id="button-basic"
-            dropdownToggle
-            type="button"
-            class="btn btn-secondary dropdown-toggle"
-            aria-controls="dropdown-basic"
-          >
-            Mais opções <span class="caret"></span>
-          </button>
-          <ul
-            id="dropdown-basic"
-            *dropdownMenu
-            class="dropdown-menu"
-            role="menu"
-            aria-labelledby="button-basic"
-          >
-            <li role="menuitem">
-              <a
-                class="dropdown-item"
-                href="javascript:void(0)"
-                (click)="openModal(template)"
-                >Editar</a
-              >
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Excluir</a>
-            </li>
-          </ul>
+        <div class="d-flex flex-row-reverse">
+          <div class="btn-group" dropdown>
+            <button
+              id="button-basic"
+              dropdownToggle
+              type="button"
+              class="btn btn-secondary dropdown-toggle"
+              aria-controls="dropdown-basic"
+            >
+              Mais opções <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-basic"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="button-basic"
+            >
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="openModal(template)"
+                  >Editar</a
+                >
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" href="#">Excluir</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </td>
     </tr>
@@ -53,17 +62,90 @@
   </tfoot>
 </table>
 
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
-    <button
-      type="button"
-      class="close pull-right"
-      aria-label="Close"
-      (click)="modalRef.hide()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
+<!-- MODAL -->
+
+<div
+  bsModal
+  #template="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-sizes-name1"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">
+          Cadastrar/Editar Cargo
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          (click)="template.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Descrição</label>
+              <input
+                type="text"
+                [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('descricao').errors &&
+                    registerForm.get('descricao').touched
+                }"
+                class="form-control"
+                formControlName="descricao"
+                placeholder=""
+              />
+              <div
+                *ngIf="
+                  registerForm.get('descricao').hasError('required') &&
+                  registerForm.get('descricao').touched
+                "
+                class="invalid-feedback"
+              >
+                A descrição é obrigatória
+              </div>
+              <div
+                *ngIf="
+                  registerForm.get('descricao').hasError('minlength') &&
+                  registerForm.get('descricao').touched
+                "
+                class="invalid-feedback"
+              >
+                A descrição deve possuir no mínimo 3 caracteres
+              </div>
+              <div
+                *ngIf="
+                  registerForm.get('descricao').hasError('maxlength') &&
+                  registerForm.get('descricao').touched
+                "
+                class="invalid-feedback"
+              >
+                A descrição deve possuir no máximo 250 caracteres
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="template.hide()">
+          Fechar
+        </button>
+        <button
+          class="btn btn-primary"
+          [disabled]="!registerForm.valid"
+          (click)="salvarAlteracao(template)"
+        >
+          Salvar Alterações
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="modal-body">This is a modal.</div>
-</ng-template>
+</div>
