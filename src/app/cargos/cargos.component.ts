@@ -15,6 +15,9 @@ export class CargosComponent implements OnInit {
   cargo: Cargo;
   modalRef: BsModalRef;
   registerForm: FormGroup;
+  modoSalvar = 'post';
+  bodyDeletarCargo = '';
+  headerCadastroEdicao = '';
 
   constructor(private cargoService: CargoService,
     private modalService: BsModalService,
@@ -45,18 +48,63 @@ export class CargosComponent implements OnInit {
 
   salvarAlteracao(template: any) {
     if (this.registerForm.valid) {
-      this.cargo = Object.assign({}, this.registerForm.value);
-      this.cargoService.postCargo(this.cargo).subscribe(
-        (response: any) => {
-          console.log(response);
-          template.hide();
-          this.getCargos();
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      if (this.modoSalvar === 'post') {
+        this.cargo = Object.assign({}, this.registerForm.value);
+        this.cargoService.postCargo(this.cargo).subscribe(
+          (response: any) => {
+            console.log(response);
+            template.hide();
+            this.getCargos();
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.cargo = Object.assign({ id: this.cargo.id }, this.registerForm.value);
+        this.cargoService.putCargo(this.cargo).subscribe(
+          (response: any) => {
+            console.log(response);
+            template.hide();
+            this.getCargos();
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
     }
+  }
+
+  editarCargo(cargo: Cargo, template: any) {
+    this.modoSalvar = 'put';
+    this.headerCadastroEdicao = 'Editar cargo';
+    this.openModal(template);
+    this.cargo = cargo;
+    this.registerForm.patchValue(cargo);
+  }
+
+  novoCargo(template: any) {
+    this.modoSalvar = 'post';
+    this.headerCadastroEdicao = 'Cadastrar cargo';
+    this.openModal(template);
+  }
+
+  excluirCargo(cargo: Cargo, template: any) {
+    this.openModal(template);
+    this.cargo = cargo;
+    this.bodyDeletarCargo = `Tem certeza que deseja excluir o Cargo: ${cargo.descricao}, Código: ${cargo.id}`;
+  }
+
+  confirmeDelete(template: any) {
+    this.cargoService.deleteCargo(this.cargo.id).subscribe(
+      () => {
+        template.hide();
+        this.getCargos();
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 
   validation() {

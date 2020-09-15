@@ -21,4 +21,12 @@ export class CargoService {
   postCargo(cargo: Cargo) {
     return this.http.post(this.baseUrl, cargo);
   }
+
+  putCargo(cargo: Cargo) {
+    return this.http.put(`${this.baseUrl}/${cargo.id}`, cargo);
+  }
+
+  deleteCargo(id: number) {
+    return this.http.delete(`${this.baseUrl}/${id}`);
+  }
 }

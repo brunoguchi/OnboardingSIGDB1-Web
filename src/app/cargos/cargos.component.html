@@ -1,10 +1,10 @@
 <div class="d-flex flex-row-reverse">
-  <button class="btn btn-outline-primary" (click)="openModal(template)">
+  <button class="btn btn-outline-primary" (click)="novoCargo(template)">
     <i class="fa fa-plus-circle"></i>
     Novo
   </button>
 </div>
-<br/>
+<br />
 <table class="table table-striped">
   <thead class="thead-light">
     <tr>
@@ -40,12 +40,17 @@
                 <a
                   class="dropdown-item"
                   href="javascript:void(0)"
-                  (click)="openModal(template)"
+                  (click)="editarCargo(cargo, template)"
                   >Editar</a
                 >
               </li>
               <li role="menuitem">
-                <a class="dropdown-item" href="#">Excluir</a>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  (click)="excluirCargo(cargo, confirmDelete)"
+                  >Excluir</a
+                >
               </li>
             </ul>
           </div>
@@ -76,7 +81,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-sizes-name1" class="modal-title pull-left">
-          Cadastrar/Editar Cargo
+          {{headerCadastroEdicao}}
         </h4>
         <button
           type="button"
@@ -144,6 +149,52 @@
           (click)="salvarAlteracao(template)"
         >
           Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRM -->
+
+<div
+  bsModal
+  #confirmDelete="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-sizes-name1"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Deletando Cargo</h4>
+        <button
+          type="button"
+          class="close pull-right"
+          (click)="confirmDelete.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ bodyDeletarCargo }}</p>
+      </div>
+      <div class="modal-footer btn-group d-flex">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="confirmDelete.hide()"
+        >
+          CENCELAR
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="confirmeDelete(confirmDelete)"
+        >
+          DELETAR
         </button>
       </div>
     </div>
