@@ -13,12 +13,22 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { CargoService } from './_services/cargo.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EmpresasComponent } from './empresas/empresas.component';
+import { ToastrModule } from 'ngx-toastr';
+import { AppRoutingModule } from './/app-routing.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { TituloPaginaComponent } from './_shared/titulo-pagina/titulo-pagina.component';
+import { FuncionariosComponent } from './funcionarios/funcionarios.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
       CargosComponent,
-      NavComponent
+      NavComponent,
+      EmpresasComponent,
+      DashboardComponent,
+      TituloPaginaComponent,
+      FuncionariosComponent
    ],
   imports: [
     BrowserModule,
@@ -27,7 +37,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastrModule.forRoot(),
+    AppRoutingModule
   ],
   providers: [CargoService],
   bootstrap: [AppComponent]

@@ -1,9 +1,10 @@
 import { templateSourceUrl } from '@angular/compiler';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Cargo } from '../_models/Cargo';
 import { CargoService } from '../_services/cargo.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cargos',
@@ -18,10 +19,12 @@ export class CargosComponent implements OnInit {
   modoSalvar = 'post';
   bodyDeletarCargo = '';
   headerCadastroEdicao = '';
+  tituloPagina = 'Cargos';
 
   constructor(private cargoService: CargoService,
     private modalService: BsModalService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -55,6 +58,7 @@ export class CargosComponent implements OnInit {
             console.log(response);
             template.hide();
             this.getCargos();
+            this.toastr.success('Registrado com sucesso');
           },
           error => {
             console.log(error);
@@ -67,6 +71,7 @@ export class CargosComponent implements OnInit {
             console.log(response);
             template.hide();
             this.getCargos();
+            this.toastr.success('Editado com sucesso');
           },
           error => {
             console.log(error);
@@ -101,6 +106,7 @@ export class CargosComponent implements OnInit {
       () => {
         template.hide();
         this.getCargos();
+        this.toastr.success('Deletado com sucesso');
       }, error => {
         console.log(error);
       }

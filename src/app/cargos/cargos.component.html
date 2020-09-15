@@ -1,3 +1,4 @@
+<app-titulo-pagina [title]="tituloPagina"></app-titulo-pagina>
 <div class="d-flex flex-row-reverse">
   <button class="btn btn-outline-primary" (click)="novoCargo(template)">
     <i class="fa fa-plus-circle"></i>
@@ -47,7 +48,7 @@
               <li role="menuitem">
                 <a
                   class="dropdown-item"
-                  href="#"
+                  href="javascript:void(0)"
                   (click)="excluirCargo(cargo, confirmDelete)"
                   >Excluir</a
                 >
@@ -148,7 +149,7 @@
           [disabled]="!registerForm.valid"
           (click)="salvarAlteracao(template)"
         >
-          Salvar Alterações
+          Salvar
         </button>
       </div>
     </div>
