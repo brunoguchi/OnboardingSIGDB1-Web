@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { CargosComponent } from './cargos/cargos.component';
 import { NavComponent } from './nav/nav.component';
 
-import { AlertModule } from 'ngx-bootstrap';
+import { AlertModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -19,16 +19,19 @@ import { AppRoutingModule } from './/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TituloPaginaComponent } from './_shared/titulo-pagina/titulo-pagina.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
+import { EmpresaService } from './_services/empresa.service';
+import { DateTimeFormatterPipe } from './_helpers/DateTimeFormatter.pipe';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
       CargosComponent,
       NavComponent,
       EmpresasComponent,
       DashboardComponent,
       TituloPaginaComponent,
-      FuncionariosComponent
+      FuncionariosComponent,
+      DateTimeFormatterPipe
    ],
   imports: [
     BrowserModule,
@@ -39,9 +42,13 @@ import { FuncionariosComponent } from './funcionarios/funcionarios.component';
     ModalModule.forRoot(),
     ReactiveFormsModule,
     ToastrModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    BsDatepickerModule.forRoot()
   ],
-  providers: [CargoService],
+  providers: [
+    CargoService,
+    EmpresaService
+  ],
   bootstrap: [AppComponent]
 })
 

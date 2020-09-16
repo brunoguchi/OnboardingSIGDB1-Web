@@ -1,4 +1,265 @@
 <app-titulo-pagina [title]="tituloPagina"></app-titulo-pagina>
-<p>
-  empresas works!
-</p>
+
+<div class="d-flex flex-row-reverse">
+  <button class="btn btn-outline-primary">
+    <i class="fa fa-plus-circle"></i>
+    Novo
+  </button>
+</div>
+
+<div class="form-row" [formGroup]="filterForm">
+  <div class="col-md-4">
+    <label for="validationCustom01">Nome</label>
+    <input
+      type="text"
+      class="form-control"
+      formControlName="nome"
+    />
+  </div>
+  <div class="col-md-3">
+    <label for="validationCustom02">CNPJ</label>
+    <input type="text" class="form-control" formControlName="cnpj" />
+  </div>
+  <div class="col-md-2">
+    <label for="validationCustomUsername">Data Fundação Início</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupPrepend"
+          ><i class="fa fa-calendar"></i
+        ></span>
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="dataInicio"
+        bsDatepicker
+      />
+    </div>
+  </div>
+  <div class="col-md-2">
+    <label for="validationCustomUsername">Data Fundação Fim</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroupPrepend"
+          ><i class="fa fa-calendar"></i
+        ></span>
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="dataFim"
+        bsDatepicker
+      />
+    </div>
+  </div>
+  <div class="d-flex flex-row-reverse" style="align-items: flex-end">
+    <button class="btn btn-outline-secondary" (click)="filtrarEmpresas()">
+      <i class="fa fa-search"></i>
+      Filtrar
+    </button>
+  </div>
+</div>
+
+<!-- <p>Valores: {{ filterForm.value | json }}</p> -->
+
+<br />
+
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>Cnpj</th>
+      <th>Data Fundação</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody *ngIf="empresas !== undefined && empresas?.length > 0">
+    <tr *ngFor="let empresa of empresas">
+      <td>{{ empresa.id }}</td>
+      <td>{{ empresa.nome }}</td>
+      <td>{{ empresa.cnpj }}</td>
+      <td>{{ empresa.dataFundacao | DateTimeFormatter }}</td>
+      <td>
+        <div class="d-flex flex-row-reverse">
+          <div class="btn-group" dropdown>
+            <button
+              id="button-basic"
+              dropdownToggle
+              type="button"
+              class="btn btn-secondary dropdown-toggle"
+              aria-controls="dropdown-basic"
+            >
+              Mais opções <span class="caret"></span>
+            </button>
+            <ul
+              id="dropdown-basic"
+              *dropdownMenu
+              class="dropdown-menu"
+              role="menu"
+              aria-labelledby="button-basic"
+            >
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="editarEmpresa(empresa, template)"
+                  >Editar</a
+                >
+              </li>
+              <li role="menuitem">
+                <a
+                  class="dropdown-item"
+                  href="javascript:void(0)"
+                  (click)="excluirEmpresa(empresa, confirmDelete)"
+                  >Excluir</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="empresas === undefined || empresas?.length == 0">
+    <tr>
+      <td colspan="3" class="text-center">
+        <h4>Nenhuma empresa encontrada</h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- MODAL -->
+
+<div
+  bsModal
+  #template="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-sizes-name1"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">
+          {{ headerCadastroEdicao }}
+        </h4>
+        <button
+          type="button"
+          class="close pull-right"
+          (click)="template.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerForm">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Nome</label>
+              <input
+                type="text"
+                [ngClass]="{
+                  'is-invalid':
+                    registerForm.get('nome').errors &&
+                    registerForm.get('nome').touched
+                }"
+                class="form-control"
+                formControlName="nome"
+                placeholder=""
+              />
+              <div
+                *ngIf="
+                  registerForm.get('nome').hasError('required') &&
+                  registerForm.get('nome').touched
+                "
+                class="invalid-feedback"
+              >
+                A descrição é obrigatória
+              </div>
+              <div
+                *ngIf="
+                  registerForm.get('nome').hasError('minlength') &&
+                  registerForm.get('nome').touched
+                "
+                class="invalid-feedback"
+              >
+                A descrição deve possuir no mínimo 3 caracteres
+              </div>
+              <div
+                *ngIf="
+                  registerForm.get('nome').hasError('maxlength') &&
+                  registerForm.get('nome').touched
+                "
+                class="invalid-feedback"
+              >
+                A descrição deve possuir no máximo 250 caracteres
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="template.hide()">
+          Fechar
+        </button>
+        <button
+          class="btn btn-primary"
+          [disabled]="!registerForm.valid"
+          (click)="salvarAlteracao(template)"
+        >
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRM -->
+
+<div
+  bsModal
+  #confirmDelete="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="dialog-sizes-name1"
+>
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Deletando Cargo</h4>
+        <button
+          type="button"
+          class="close pull-right"
+          (click)="confirmDelete.hide()"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{ bodyDeletarEmpresa }}</p>
+      </div>
+      <div class="modal-footer btn-group d-flex">
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          (click)="confirmDelete.hide()"
+        >
+          CENCELAR
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-danger"
+          (click)="confirmeDelete(confirmDelete)"
+        >
+          DELETAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
