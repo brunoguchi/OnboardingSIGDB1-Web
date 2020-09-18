@@ -73,7 +73,16 @@ export class EmpresasComponent implements OnInit {
 
   filtrarEmpresas() {
     this.empresaFiltro = Object.assign({}, this.filterForm.value);
-    console.log(this.empresaFiltro);
+
+    this.empresaService.getEmpresasPorFiltro(this.empresaFiltro).subscribe(
+      (_empresas: Empresa[]) => {
+        this.empresas = _empresas;
+        console.log(_empresas);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   validation() {
