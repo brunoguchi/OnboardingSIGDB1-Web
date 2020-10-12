@@ -32,11 +32,11 @@ export class EmpresaService {
     }
 
     if (filtro.dataInicio) {
-      this.parametros = this.parametros + `&DataInicio=${filtro.dataInicio.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )}`;
+      this.parametros = this.parametros + `&DataInicio=${filtro.dataInicio.toLocaleDateString('pt-br').split('/').reverse().join('-')}`;
     }
 
     if (filtro.dataFim) {
-      this.parametros = this.parametros + `&DataFim=${filtro.dataFim.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )}`;
+      this.parametros = this.parametros + `&DataFim=${filtro.dataFim.toLocaleDateString('pt-br').split('/').reverse().join('-')}`;
     }
 
     if (this.parametros.startsWith('&')) {
